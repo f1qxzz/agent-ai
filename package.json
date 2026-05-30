@@ -1,0 +1,38 @@
+{
+  "name": "o-w-o-telegram-ai-familiar",
+  "version": "1.2.0",
+  "description": "Telegram AI Familiar and coding agent with memory, skills, approvals, and safe connectors.",
+  "type": "module",
+  "main": "src/core/bot.js",
+  "scripts": {
+    "dev": "node --watch src/core/bot.js",
+    "start": "node --watch src/core/bot.js",
+    "check": "node --check src/core/bot.js && node --check src/ai/ai.js && node --check src/ai/agent.js && node --check src/ai/cliRunner.js && node --check src/ai/extraCliProviders.js && node --check src/ai/tools.js && node --check src/commands/commands.js && node --check src/core/config.js && node --check src/core/memory.js && node --check src/core/skills.js && node --check src/utils/security.js && node --check src/utils/fileManager.js && node --check src/utils/git.js && node --check src/system/terminal.js && node --check src/system/antigravity.js && node --check src/system/processManager.js && node --check src/system/laptopRemote.js && node --check src/core/logger.js && node --check src/connectors/connectorManager.js && node --check src/connectors/githubConnector.js && node --check src/connectors/discordConnector.js && node --check src/connectors/xConnector.js && node --check src/connectors/httpClient.js && node --check src/connectors/approvalPolicy.js && node --check src/connectors/githubDeviceLogin.js"
+  },
+  "keywords": [
+    "telegram",
+    "gemini",
+    "kiro-cli",
+    "coding-assistant",
+    "ai-familiar",
+    "remote"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@ngrok/ngrok": "^1.7.0",
+    "@octokit/rest": "^21.1.1",
+    "axios": "^1.16.1",
+    "boxen": "^8.0.1",
+    "chalk": "^5.6.2",
+    "discord.js": "^14.26.4",
+    "dotenv": "^16.4.7",
+    "figlet": "^1.11.0",
+    "gradient-string": "^3.0.0",
+    "node-telegram-bot-api": "^0.66.0",
+    "twitter-api-v2": "^1.29.0"
+  }
+}
