@@ -1,273 +1,222 @@
-# O-W-O Telegram AI Familiar
+<div align="center">
 
-O-W-O is a Telegram Familiar / Coding Agent for local projects. It is not just a
-Telegram remote command bot. It has a permanent identity in `SOUL.md`, project
-coding rules in `AGENT.md`, persistent memory, reusable skills, approval
-boundaries, connector safety, and a natural language router for coding work.
+# Agent AI
 
-## What Makes It Different
+**Telegram AI Familiar & Coding Agent**
 
-A normal chatbot only answers messages. O-W-O can inspect a project, edit files
-with backups, run verification, keep durable preferences, reuse successful
-workflows as skills, and push back when an instruction is risky or technically
-bad.
+[![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org)
+[![Telegram](https://img.shields.io/badge/Telegram-Bot-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://core.telegram.org/bots)
+[![Gemini](https://img.shields.io/badge/Gemini-AI-4285F4?style=for-the-badge&logo=google&logoColor=white)](https://ai.google.dev)
+[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](#)
 
-O-W-O still has boundaries:
+<br>
 
-- It does not print credentials.
-- It does not read `.env` into AI context.
-- It does not act outside `PROJECT_ROOT` without approval.
-- It does not publish, push, deploy, delete, or perform public-impact actions
-  without approval.
+**Bukan chatbot biasa. Bisa inspect project, edit file, jalankan code, manage memory, dan push back kalau instruksinya berisiko.**
 
-## Setup
+<br>
 
-Requires Node.js 20+.
+</div>
+
+---
+
+## Apa itu Agent AI?
+
+Agent AI adalah Telegram bot yang berfungsi sebagai **coding familiar** — asisten AI yang punya identity, memory, skills, dan approval system. Dia bisa:
+
+- Inspect dan edit project kamu langsung dari Telegram
+- Simpan preference dan workflow sebagai memory & skills
+- Push back kalau instruksi berisiko atautechnically bad
+- Connect ke GitHub, Discord, dan X (Twitter)
+
+Bukan remote shell proxy. Bukan credential viewer. Bukan public posting bot tanpa approval.
+
+---
+
+## Fitur Utama
+
+<table>
+<tr>
+<td width="50%">
+
+#### Coding Agent
+- Read, write, edit file dengan backup
+- Jalankan command & verify hasilnya
+- Natural language routing (Bahasa Indonesia)
+- Identity di `SOUL.md` + rules di `AGENT.md`
+- Push back kalau instruksi berisiko
+
+</td>
+<td width="50%">
+
+#### Memory & Skills
+- Persistent memory (preferences, project facts)
+- Reusable skills (workflow yang sudah berhasil)
+- Session state temporary
+- Tidak menyimpan credentials di memory
+
+</td>
+</tr>
+</table>
+
+---
+
+## Connector
+
+<table>
+<tr>
+<td>
+
+#### GitHub
+- Read repo, issues, PR, branches
+- Create repo, push, release (butuh approval)
+
+</td>
+<td>
+
+#### Discord
+- Kirim pesan ke allowed channel
+- Moderation (butuh approval)
+
+</td>
+<td>
+
+#### X (Twitter)
+- Read profile, build draft
+- Post tweet, DM (butuh approval)
+
+</td>
+</tr>
+</table>
+
+---
+
+## Quick Start
 
 ```bash
+# Clone
+git clone https://github.com/f1qxzz/agent-ai.git
+cd agent-ai
+
+# Install
 npm install
+
+# Konfigurasi
 cp .env.example .env
+# Edit .env (isi TELEGRAM_BOT_TOKEN, OWNER_TELEGRAM_ID, AI provider)
+
+# Cek syntax
 npm run check
+
+# Jalankan
 npm start
 ```
 
-Edit `.env` locally. Do not paste tokens into Telegram chat.
+### BotFather Setup
 
-## Telegram BotFather
+1. Buka BotFather di Telegram
+2. `/newbot` → copy bot token
+3. Paste ke `.env` sebagai `TELEGRAM_BOT_TOKEN=`
+4. Dapatkan Telegram ID kamu (gunakan `/whoami` setelah bot jalan)
+5. Set `OWNER_TELEGRAM_ID=` di `.env`
 
-1. Open BotFather in Telegram.
-2. Create a bot with `/newbot`.
-3. Copy the bot token into `.env` as `TELEGRAM_BOT_TOKEN=`.
-4. Start the bot with `npm start`.
+---
 
-## Owner Telegram ID
-
-Use one of these:
-
-- Message a trusted ID bot and copy your numeric Telegram ID.
-- Temporarily run the bot, send `/whoami`, then copy `Telegram user id`.
-
-Set it in `.env`:
+## Konfigurasi
 
 ```env
+# Identity
+AGENT_NAME=O-W-O
+AGENT_OWNER=@f1qxzz
+
+# Telegram
+TELEGRAM_BOT_TOKEN=
 OWNER_TELEGRAM_ID=
-TELEGRAM_USER_ID=
-```
 
-`OWNER_TELEGRAM_ID` is canonical. `TELEGRAM_USER_ID` is kept for backward
-compatibility.
-
-## AI Provider
-
-Set the provider and model:
-
-```env
-AI_PROVIDER=
-AI_MODEL=
-AI_AUTO_FALLBACK=
-AI_FALLBACK_ORDER=
-```
-
-Optional keys:
-
-```env
-GEMINI_API_KEY=
-KIRO_API_KEY=
-```
-
-The bot loads `SOUL.md` and `AGENT.md` into internal prompts. These files define
-identity, language policy, autonomy levels, approval rules, memory policy,
-skills policy, and verification rules.
-
-## Project Root
-
-Set the project scope:
-
-```env
+# Project scope
 PROJECT_ROOT=D:/PROJECT/my-app
-```
 
-All file tools must stay inside `PROJECT_ROOT`. Reading private files like
-`.env`, keys, cookies, sessions, credentials, and tokens is blocked.
+# AI Provider
+AI_PROVIDER=gemini
+AI_MODEL=gemini-2.0-flash
+GEMINI_API_KEY=
 
-## GitHub Connector
-
-Enable only when needed:
-
-```env
+# Connectors (optional)
 ENABLE_GITHUB_CONNECTOR=true
 GITHUB_TOKEN=
-GITHUB_DEFAULT_OWNER=
-GITHUB_DEFAULT_REPO=
 ```
 
-Safe actions:
+> Jangan pernah paste token ke Telegram chat. Selalu edit `.env` langsung.
 
-- get status
-- test connection
-- read repo
-- list repos
-- list issues
-- list pull requests
-- list branches
+---
 
-Approval required:
+## Arsitektur
 
-- create repo
-- push
-- force push
-- merge pull request
-- delete repo
-- update secret
-- create release
-
-## Discord Connector
-
-```env
-ENABLE_DISCORD_CONNECTOR=true
-DISCORD_BOT_TOKEN=
-DISCORD_ALLOWED_GUILD_ID=
-DISCORD_ALLOWED_CHANNEL_IDS=
+```
+Telegram  ──►  Bot Core  ──►  AI Gateway  ──►  Gemini / Kiro
+                  │                │
+                  ▼                ▼
+            Memory Store     Tool Executor
+            Skills Store          │
+                                  ▼
+                           File / Git / Connector
 ```
 
-Safe actions:
+---
 
-- get identity
-- list allowed channels
+## Commands
 
-Autonomous + Log:
+### Core
 
-- send message to an allowlisted channel only when explicitly requested
+| Command | Deskripsi |
+|---------|-----------|
+| `/start` | Mulai bot |
+| `/help` | Daftar command |
+| `/status` | Status bot & koneksi |
+| `/whoami` | Info Telegram ID |
+| `/ask <pertanyaan>` | Tanya ke AI |
 
-Approval required:
+### File Management
 
-- send outside allowlist
-- mention everyone
-- delete message
-- moderation actions
+| Command | Deskripsi |
+|---------|-----------|
+| `/files` | Browse project |
+| `/read <path>` | Baca file |
+| `/write <path> <content>` | Tulis file |
+| `/edit <path> <instruksi>` | Edit file dengan AI |
+| `/backup <path>` | Backup file |
 
-## X Connector
+### Runtime
 
-```env
-ENABLE_X_CONNECTOR=true
-X_API_KEY=
-X_API_SECRET=
-X_ACCESS_TOKEN=
-X_ACCESS_SECRET=
-X_BEARER_TOKEN=
-```
+| Command | Deskripsi |
+|---------|-----------|
+| `/run <command>` | Jalankan command |
+| `/stop [label\|all]]` | Stop process |
+| `/logs` | Lihat logs |
+| `/sync` | Sync workspace |
 
-Safe actions:
+### Memory & Skills
 
-- get identity
-- read profile/status
-- build draft
+| Command | Deskripsi |
+|---------|-----------|
+| `/memory` | Lihat memory |
+| `/memory add <text>` | Tambah memory |
+| `/memory forget <keyword>` | Hapus memory |
+| `/skills` | Lihat skills |
+| `/skill save <name>` | Simpan sebagai skill |
 
-Approval required:
+### Approval
 
-- post tweet
-- public reply
-- DM
-- follow/unfollow
-- delete tweet
-- update profile
+| Command | Deskripsi |
+|---------|-----------|
+| `/approvals` | Lihat ticket pending |
+| `/approve <id>` | Setujui aksi |
+| `/reject <id>` | Tolak aksi |
 
-## Approval System
+---
 
-Risky actions create an approval ticket instead of running immediately.
+## Natural Language
 
-Ticket fields:
-
-- `id`
-- `action`
-- `risk`
-- `target`
-- `reason`
-- `preview`
-- masked `command` or payload
-- `expiresAt`
-- `createdBy`
-- `status`
-
-Commands:
-
-```text
-/approvals
-/approve <id>
-/reject <id>
-```
-
-Approved actions run through the same executor path, not a bypass.
-
-## Memory System
-
-Memory is stored in `data/memory.json`.
-
-Persistent categories:
-
-- `preferences`
-- `environment`
-- `projectFacts`
-- `corrections`
-- `workflows`
-
-Temporary runtime category:
-
-- `sessionState`
-
-Memory must not store task logs, copied chat history, raw command output,
-credentials, tokens, private keys, cookies, or session data.
-
-Commands:
-
-```text
-/memory
-/memory add <text>
-/memory forget <keyword>
-```
-
-Natural examples:
-
-```text
-ingat kalau aku suka React Tailwind
-lupakan memory tentang React Tailwind
-apa yang kamu ingat
-```
-
-## Skills System
-
-Skills are reusable procedural workflows stored in `data/skills.json`. A skill
-is not a chat log.
-
-Skill shape:
-
-```json
-{
-  "name": "",
-  "description": "",
-  "trigger": "",
-  "steps": [],
-  "safetyChecks": [],
-  "verification": [],
-  "fallback": [],
-  "createdAt": "",
-  "updatedAt": ""
-}
-```
-
-Commands:
-
-```text
-/skills
-/skills show <name>
-/skills delete <name>
-/skill save <name>
-```
-
-After a complex workflow succeeds, O-W-O may offer to save it as a skill. It
-does not auto-save without approval.
-
-## Natural Language Examples
+Tidak perlu hafal command. Cukup tulis natural:
 
 ```text
 cek error project ini
@@ -278,166 +227,58 @@ edit navbar biar responsive
 jalankan npm run check
 push ke github
 buat issue di github
-buat draft tweet
-kirim pesan ke discord channel allowed
 ingat kalau aku suka React Tailwind
 simpan workflow debugging ini sebagai skill
 ```
 
-Risky actions from natural language still require approval.
+---
 
-## Command List
+## Security
 
-Core:
+### Yang diblokir otomatis:
+- `.env`, `*.pem`, `*.key`, `id_rsa`, credentials, tokens, cookies
+- `rm -rf`, `format`, `shutdown`, `git push --force`
+- PowerShell encoded commands, `curl | bash`
 
-```text
-/start
-/help
-/status
-/whoami
-/agent
-/ask
+### Yang butuh approval:
+- Create repo, push, force push, merge PR, delete repo
+- Post tweet, DM, follow/unfollow
+- Kirim pesan ke Discord di luar allowlist
+
+### Semua output melewati secret redaction.
+
+---
+
+## Struktur Project
+
+```
+agent-ai/
+├── SOUL.md                 # Identity & behavior rules
+├── AGENT.md                # Coding rules
+├── src/
+│   ├── core/               # Bot core, config, memory, skills
+│   ├── ai/                 # AI gateway, agent, tools
+│   ├── commands/           # Command handler
+│   ├── connectors/         # GitHub, Discord, X
+│   ├── system/             # Terminal, process manager
+│   └── utils/              # Security, file manager, git
+├── data/                   # Memory & skills (runtime)
+└── .env.example            # Template konfigurasi
 ```
 
-Files:
-
-```text
-/files
-/read <path>
-/write <path> <content>
-/edit <path> <instruction>
-/backup <path>
-```
-
-Runtime:
-
-```text
-/run <command>
-/stop [label|all]
-/logs
-/sync
-```
-
-Approval:
-
-```text
-/approvals
-/approve <id>
-/reject <id>
-```
-
-Memory:
-
-```text
-/memory
-/memory add <text>
-/memory forget <keyword>
-```
-
-Skills:
-
-```text
-/skills
-/skills show <name>
-/skills delete <name>
-/skill save <name>
-```
-
-Connectors:
-
-```text
-/connector
-/connector status <github|discord|x>
-/connector test <github|discord|x>
-/connector refresh <github|discord|x>
-/login github
-```
-
-Some older convenience commands still exist for laptop remote control and local
-dev server management. `/help` shows the live command surface.
-
-## Security Boundaries
-
-Blocked from user-facing reads:
-
-- `.env`
-- `.env.*`
-- `*.pem`
-- `*.key`
-- `id_rsa`
-- `credentials`
-- `token`
-- `cookie`
-- `session`
-
-Blocked or approval-gated commands:
-
-- `rm -rf`
-- `del /s`
-- `format`
-- `diskpart`
-- `reg delete`
-- `shutdown`
-- `reboot`
-- `git reset --hard`
-- `git clean`
-- `git push --force`
-- `curl | bash`
-- `wget | bash`
-- PowerShell encoded commands
-- `npm publish`
-
-All Telegram output must pass secret redaction.
-
-## Verification
-
-Run:
-
-```bash
-npm run check
-```
-
-If the active project has these scripts, run them when relevant:
-
-```bash
-npm test
-npm run build
-npm run lint
-```
-
-O-W-O should not report coding work as finished before verification has a
-concrete result.
+---
 
 ## Troubleshooting
 
-`Konfigurasi belum lengkap`
+| Error | Solusi |
+|-------|--------|
+| `Konfigurasi belum lengkap` | Isi `TELEGRAM_BOT_TOKEN`, `OWNER_TELEGRAM_ID`, dan minimal 1 AI provider key |
+| `Connector belum aktif` | Set `ENABLE_<SERVICE>_CONNECTOR=true`, isi credential, lalu `/connector test <service>` |
+| `Path sensitif diblokir` | Normal untuk `.env`, keys, credentials. Minta status, bukan raw value |
+| `Action butuh approval` | Jalankan `/approvals`, review, lalu `/approve <id>` |
 
-- Fill `TELEGRAM_BOT_TOKEN`.
-- Fill `OWNER_TELEGRAM_ID` or `TELEGRAM_USER_ID`.
-- Fill at least one configured AI provider key or configure a local provider.
+---
 
-`Connector belum aktif`
+## License
 
-- Set `ENABLE_<SERVICE>_CONNECTOR=true`.
-- Fill the service credential in `.env`.
-- Run `/connector test <service>`.
-
-`Path sensitif diblokir`
-
-- This is expected for `.env`, keys, credentials, cookies, and session files.
-- Ask for key status, not raw values.
-
-`Action butuh approval`
-
-- Run `/approvals`.
-- Review the masked preview.
-- Run `/approve <id>` or `/reject <id>`.
-
-## Future Extensions
-
-These are not implemented as guaranteed behavior unless code exists for them:
-
-- autonomous browser login outside the existing GitHub device flow
-- wallet/on-chain actions
-- email connector
-- multi-user rooms
+MIT
